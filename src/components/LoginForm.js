@@ -6,26 +6,29 @@ import {Button,CardSection,Card,Input} from "./common";
 class LoginForm extends Component
 {
 
-    state = {text:''};
+    state = {email:'',password:''};
 
     render()
     {
         return(
                 <Card>
                     <CardSection>
-                        <Input onChangeText={text=>this.setState({text: text})} value={this.state.text} placeholder={"email"}/>
+                        <Input onChangeText={email=>this.setState({email: email})} value={this.state.email} placeholder={"email"}/>
                     </CardSection>
 
                     <CardSection>
-                        <Input onChangeText={text=>this.setState({text: text})} value={this.state.text} placeholder={"password"}/>
+                        <Input onChangeText={password=>this.setState({password: password})} value={this.state.password} placeholder={"password"} secureTextEntry={true}/>
                     </CardSection>
                     <CardSection>
                         <Button>
                             Login
                         </Button>
                     </CardSection>
+                
                 </Card>
+                
         );
+        
     }
 }
 
