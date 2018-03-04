@@ -10,7 +10,7 @@ import {
 import firebase from 'firebase';
 import
 {
-    Header
+    Header,Button,Spinner
 } from './components/common';
 import LoginForm from './components/LoginForm';
 
@@ -18,6 +18,9 @@ import LoginForm from './components/LoginForm';
 
 class App extends Component
 {
+    state = {
+        loggedIn: null
+    };
     componentWillMount()
     {
         firebase.initializeApp({
@@ -28,6 +31,36 @@ class App extends Component
             storageBucket: 'authdemo-5d061.appspot.com',
             messagingSenderId: '281287411198'
         });
+
+        firebase.auth().onAuthStateChanged((user)=>{
+            if(user)
+            {
+                this.setState({loggedIn:true});
+                
+            }
+            else
+            {
+                this.setState({loggedIn:false});
+            }
+        });
+    }
+
+    renderContent()
+    {
+        
+
+            switch (this.state.loggedIn) {
+                case true:
+                    
+                    return (<View style={{flexDirection:'row',paddingTop:20}}><Button onPress={()=>firebase.auth().signOut()}>Log out</Button></View>);
+                case false:
+                    return <LoginForm />;
+            
+                default:
+                    return <View style={{paddingTop:50}}><Spinner size="large" /></View>
+            }
+            
+        
     }
     render()
     {
@@ -35,12 +68,23 @@ class App extends Component
         return(
             <View>
                 <Header headerText="auth"/>
-                <LoginForm/>
+                {this.renderContent()}
+           
+               
 
 
             </View>
         );
     }
 }
+const styles={
+    textStyle:{
+        alignSelf:'center',
+        color:'green'
+    }
+   
+}
+
+
 
 export default App;
